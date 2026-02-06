@@ -11,13 +11,16 @@ if err != nil {
 return err
 }
 
-// Add force parameter to allow destructive policy changes
-url, err = transport_tpg.AddQueryParams(url, map[string]string{"force": "true"})
+log.Printf("[DEBUG] Emptying ConsumerPolicy %q: %#v", d.Id(), obj)
+
+// Add updateMask and force parameters
+url, err = transport_tpg.AddQueryParams(url, map[string]string{
+"updateMask": "enableRules",
+"force": "true",
+})
 if err != nil {
 return err
 }
-
-log.Printf("[DEBUG] Emptying ConsumerPolicy %q: %#v", d.Id(), obj)
 
 res, err := transport_tpg.SendRequest(transport_tpg.SendRequestOptions{
 Config:    config,
