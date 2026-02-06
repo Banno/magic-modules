@@ -5,35 +5,41 @@ obj["enableRules"] = []interface{}{}
 
 url, err := tpgresource.ReplaceVars(d, config, "{{"{{"}}ServiceUsageV2BasePath{{"}}"}}organizations/{{"{{"}}organization{{"}}"}}/consumerPolicies/default")
 if err != nil {
-	return err
+return err
+}
+
+// Add force parameter to allow destructive policy changes
+url, err = transport_tpg.AddQueryParams(url, map[string]string{"force": "true"})
+if err != nil {
+return err
 }
 
 log.Printf("[DEBUG] Emptying ConsumerPolicyForOrganization %q: %#v", d.Id(), obj)
 
 if bp, err := tpgresource.GetBillingProject(d, config); err == nil {
-	billingProject = bp
+billingProject = bp
 }
 
 res, err := transport_tpg.SendRequest(transport_tpg.SendRequestOptions{
-	Config:    config,
-	Method:    "PATCH",
-	Project:   billingProject,
-	RawURL:    url,
-	UserAgent: userAgent,
-	Body:      obj,
-	Timeout:   d.Timeout(schema.TimeoutDelete),
+Config:    config,
+Method:    "PATCH",
+Project:   billingProject,
+RawURL:    url,
+UserAgent: userAgent,
+Body:      obj,
+Timeout:   d.Timeout(schema.TimeoutDelete),
 })
 
 if err != nil {
-	return fmt.Errorf("Error emptying ConsumerPolicyForOrganization %q: %s", d.Id(), err)
+return fmt.Errorf("Error emptying ConsumerPolicyForOrganization %q: %s", d.Id(), err)
 }
 
 err = ServiceUsageV2OperationWaitTime(
-	config, res, billingProject, "Deleting ConsumerPolicyForOrganization", userAgent,
-	d.Timeout(schema.TimeoutDelete))
+config, res, billingProject, "Deleting ConsumerPolicyForOrganization", userAgent,
+d.Timeout(schema.TimeoutDelete))
 
 if err != nil {
-	return err
+return err
 }
 
 log.Printf("[DEBUG] Finished emptying ConsumerPolicyForOrganization %q: %#v", d.Id(), res)

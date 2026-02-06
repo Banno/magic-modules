@@ -70,6 +70,15 @@ parameters:
     url_param_only: true
     required: true
     immutable: true
+  - name: 'force'
+    type: Boolean
+    description: |
+      If true, the policy update will proceed even if it may result in the deletion of
+      resources from affected services or loss of API access for clients. This is typically
+      required when removing services that have been recently used.
+    min_version: 'beta'
+    url_param_only: true
+    default_value: false
 properties:
   - name: 'name'
     type: String
