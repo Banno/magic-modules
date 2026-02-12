@@ -52,6 +52,7 @@ async:
     resource_inside_response: true
   include_project: true
 custom_code:
+  custom_update: 'templates/terraform/custom_update/consumer_policy_for_organization.go.tmpl'
   custom_delete: 'templates/terraform/custom_delete/clear_consumer_policy_for_organization.go.tmpl'
   test_check_destroy: 'templates/terraform/custom_check_destroy/consumer_policy_for_organization.go.tmpl'
 examples:
