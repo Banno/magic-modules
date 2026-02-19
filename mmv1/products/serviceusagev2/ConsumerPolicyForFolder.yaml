@@ -51,6 +51,7 @@ async:
   result:
     resource_inside_response: true
   include_project: true
+exclude_sweeper: true
 custom_code:
   custom_update: 'templates/terraform/custom_update/consumer_policy_for_folder.go.tmpl'
   custom_delete: 'templates/terraform/custom_delete/clear_consumer_policy_for_folder.go.tmpl'
@@ -75,9 +76,11 @@ parameters:
   - name: 'force'
     type: Boolean
     description: |
-      If true, the policy update will proceed even if it may result in the deletion of
-      resources from affected services or loss of API access for clients. This is typically
-      required when removing services that have been recently used.
+      If force is set to true, the policy update will proceed even if it may result
+      in the deletion of resources from affected services or loss of API access for
+      clients. This is required when disabling services that have been used in the
+      last 30 days or were enabled in the past 3 days. Without force, such changes
+      will return an error.
     min_version: 'beta'
     url_param_only: true
     default_value: false

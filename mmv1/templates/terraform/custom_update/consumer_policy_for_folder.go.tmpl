@@ -53,7 +53,7 @@ if err != nil {
 }
 
 err = ServiceUsageV2OperationWaitTime(
-	config, res, project, "Updating ConsumerPolicyForFolder", userAgent,
+	config, res, billingProject, "Updating ConsumerPolicyForFolder", userAgent,
 	d.Timeout(schema.TimeoutUpdate))
 
 if err != nil {

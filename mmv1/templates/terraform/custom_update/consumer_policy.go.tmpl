@@ -11,11 +11,6 @@ if err != nil {
 }
 billingProject = project
 
-// err == nil indicates that the billing_project value was found
-if bp, err := tpgresource.GetBillingProject(d, config); err == nil {
-	billingProject = bp
-}
-
 obj := make(map[string]interface{})
 enableRulesProp, err := expandServiceUsageV2ConsumerPolicyEnableRules(d.Get("enable_rules"), d, config)
 if err != nil {
@@ -41,7 +36,6 @@ if v, ok := d.GetOk("force"); ok && v.(bool) {
 
 headers := make(http.Header)
 
-// err == nil indicates that the billing_project value was found
 if bp, err := tpgresource.GetBillingProject(d, config); err == nil {
 	billingProject = bp
 }
